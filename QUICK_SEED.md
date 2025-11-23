@@ -48,28 +48,50 @@ php artisan migrate:fresh --seed --force
 
 ## 🐛 Troubleshooting
 
-### Error: "Role already exists"
-Agar yeh error aaye toh seeders already run ho chuke hain. Do this:
+### Error: "Role already exists" OR "User already exists"
+**Good news! Yeh matlab hai ki tumhare accounts already ban chuke hain! 🎉**
 
-**Option 1: Skip RoleSeeder (Recommended)**
-```bash
-php artisan db:seed --class=UserSeeder --force
-```
+**Solution: Simply verify and login karo**
 
-**Option 2: Fresh Start (⚠️ Deletes all data)**
-```bash
-php artisan migrate:fresh --seed --force
-```
-
-**Option 3: Just create missing users**
+Heroku console mein yeh command run karo:
 ```bash
 php artisan tinker
 ```
-Then paste:
+
+Then check karo ki users exist karte hain:
 ```php
-$admin = \App\Models\User::firstOrCreate(['email' => 'admin@invoicepro.com'], ['name' => 'Admin', 'password' => bcrypt('password'), 'role' => 'admin', 'email_verified_at' => now()]);
-$admin->assignRole('admin');
+\App\Models\User::where('email', 'admin@invoicepro.com')->exists()
+\App\Models\User::where('email', 'user@invoicepro.com')->exists()
 exit
+```
+
+Agar `true` aaye, toh **directly login karo**:
+- Admin: `admin@invoicepro.com` / `password`
+- User: `user@invoicepro.com` / `password`
+
+---
+
+### Agar Password Pata Nahi Hai (Reset Password)
+
+Heroku console mein:
+```bash
+php artisan tinker
+```
+
+Then:
+```php
+$admin = \App\Models\User::where('email', 'admin@invoicepro.com')->first();
+$admin->password = bcrypt('newpassword123');
+$admin->save();
+echo "Password changed to: newpassword123";
+exit
+```
+
+---
+
+### Fresh Start Chahiye? (⚠️ Deletes ALL data)
+```bash
+php artisan migrate:fresh --seed --force
 ```
 
 ---

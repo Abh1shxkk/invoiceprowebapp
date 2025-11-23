@@ -14,46 +14,62 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create Admin User
-        $admin = User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@invoicepro.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin',
-            'email_verified_at' => now(),
-        ]);
+        // Create or find Admin User
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@invoicepro.com'],
+            [
+                'name' => 'Admin User',
+                'password' => Hash::make('password'),
+                'role' => 'admin',
+                'email_verified_at' => now(),
+            ]
+        );
 
-        // Assign admin role
-        $admin->assignRole('admin');
+        // Assign admin role if not already assigned
+        if (!$admin->hasRole('admin')) {
+            $admin->assignRole('admin');
+        }
 
-        // Create admin settings
-        Setting::create([
-            'user_id' => $admin->id,
-            'company_name' => 'InvoicePro Admin',
-            'address' => '123 Admin Street, Admin City, AC 12345',
-            'tax_rate' => 18.00,
-            'invoice_prefix' => 'ADM',
-        ]);
+        // Create or update admin settings
+        Setting::updateOrCreate(
+            ['user_id' => $admin->id],
+            [
+                'company_name' => 'InvoicePro Admin',
+                'address' => '123 Admin Street, Admin City, AC 12345',
+                'tax_rate' => 18.00,
+                'invoice_prefix' => 'ADM',
+            ]
+        );
 
-        // Create Regular User
-        $user = User::create([
-            'name' => 'John Doe',
-            'email' => 'user@invoicepro.com',
-            'password' => Hash::make('password'),
-            'role' => 'user',
-            'email_verified_at' => now(),
-        ]);
+        // Create or find Regular User
+        $user = User::firstOrCreate(
+            ['email' => 'user@invoicepro.com'],
+            [
+                'name' => 'John Doe',
+                'password' => Hash::make('password'),
+                'role' => 'user',
+                'email_verified_at' => now(),
+            ]
+        );
 
-        // Assign user role
-        $user->assignRole('user');
+        // Assign user role if not already assigned
+        if (!$user->hasRole('user')) {
+            $user->assignRole('user');
+        }
 
-        // Create user settings
-        Setting::create([
-            'user_id' => $user->id,
-            'company_name' => 'John Doe Enterprises',
-            'address' => '456 Business Ave, Business City, BC 67890',
-            'tax_rate' => 15.00,
-            'invoice_prefix' => 'INV',
-        ]);
+        // Create or update user settings
+        Setting::updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'company_name' => 'John Doe Enterprises',
+                'address' => '456 Business Ave, Business City, BC 67890',
+                'tax_rate' => 15.00,
+                'invoice_prefix' => 'INV',
+            ]
+        );
+
+        $this->command->info('✅ Users seeded successfully!');
+        $this->command->info('Admin: admin@invoicepro.com / password');
+        $this->command->info('User: user@invoicepro.com / password');
     }
 }
