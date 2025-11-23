@@ -33,6 +33,12 @@ class User extends Authenticatable
      */
     public function getProfilePhotoUrlAttribute()
     {
+        // If profile_photo_path starts with 'data:', it's a base64 encoded image
+        if ($this->profile_photo_path && str_starts_with($this->profile_photo_path, 'data:')) {
+            return $this->profile_photo_path;
+        }
+        
+        // Otherwise, try to load from storage (for backward compatibility)
         return $this->profile_photo_path
                     ? asset('storage/' . $this->profile_photo_path)
                     : 'https://ui-avatars.com/api/?name='.urlencode($this->name).'&color=7F9CF5&background=EBF4FF';

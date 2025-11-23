@@ -33,13 +33,13 @@ class ProfileController extends Controller
         }
 
         if ($request->hasFile('photo')) {
-            // Delete old photo if exists
-            if ($request->user()->profile_photo_path) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete($request->user()->profile_photo_path);
-            }
-
-            $path = $request->file('photo')->store('profile-photos', 'public');
-            $request->user()->profile_photo_path = $path;
+            // Convert image to base64 and store in database
+            $image = $request->file('photo');
+            $imageData = base64_encode(file_get_contents($image->getRealPath()));
+            $mimeType = $image->getMimeType();
+            
+            // Store as data URI
+            $request->user()->profile_photo_path = 'data:' . $mimeType . ';base64,' . $imageData;
         }
 
         $request->user()->save();
