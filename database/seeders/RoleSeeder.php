@@ -13,13 +13,13 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create roles
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'user']);
+        // Create roles only if they don't exist
+        Role::firstOrCreate(['name' => 'admin']);
+        Role::firstOrCreate(['name' => 'user']);
 
         // You can add permissions here if needed in future
         // Example:
-        // Permission::create(['name' => 'manage users']);
-        // Permission::create(['name' => 'manage invoices']);
+        // Permission::firstOrCreate(['name' => 'manage users']);
+        // Permission::firstOrCreate(['name' => 'manage invoices']);
     }
 }

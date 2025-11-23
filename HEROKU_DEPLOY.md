@@ -59,18 +59,53 @@ Heroku uses PostgreSQL instead of MySQL by default.
 3.  Select the branch to deploy (usually `main`) and click **Deploy Branch**.
 4.  Wait for the build to finish. You should see "Build succeeded".
 
-## Step 7: Run Migrations
-You need to set up the database tables on the live server.
+## Step 7: Run Migrations & Seed Data
+You need to set up the database tables and create admin/user accounts on the live server.
+
+### 7.1 Run Migrations
 1.  Click **More** (top right) > **Run console**.
 2.  Type `bash` and click **Run**.
 3.  In the terminal that opens, run:
     ```bash
     php artisan migrate --force
     ```
-4.  (Optional) To seed data:
-    ```bash
-    php artisan db:seed --class=DemoDataSeeder --force
-    ```
+
+### 7.2 Seed Admin & User Accounts
+**Choose ONE of the following options:**
+
+#### **Option A: Complete Setup with Demo Data** (Recommended for Testing)
+This will create Admin, Regular User, and Demo User with sample invoices, clients, etc.
+```bash
+php artisan db:seed --force
+```
+
+**Created Accounts:**
+- **Admin:** admin@invoicepro.com / password
+- **User:** user@invoicepro.com / password
+- **Demo User:** demo@invoicepro.com / password (with sample data)
+
+#### **Option B: Only Admin & User Accounts** (Production Ready)
+If you want only the essential accounts without demo data:
+```bash
+php artisan db:seed --class=RoleSeeder --force
+php artisan db:seed --class=UserSeeder --force
+```
+
+**Created Accounts:**
+- **Admin:** admin@invoicepro.com / password
+- **User:** user@invoicepro.com / password
+
+#### **Option C: Custom Production Seeder** (Most Secure)
+For production with custom credentials, use the ProductionSeeder (see below).
+```bash
+php artisan db:seed --class=ProductionSeeder --force
+```
+
+**Created Accounts:**
+- **Admin:** admin@yourdomain.com / YourSecurePassword123!
+- **User:** user@yourdomain.com / UserPassword123!
+
+> **Security Note:** After logging in with these default credentials, immediately change your password from the settings page!
 
 ## Step 8: Open Your App
 Click the **Open app** button in the top right corner. Your InvoicePro application should now be live!
