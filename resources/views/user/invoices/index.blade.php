@@ -18,7 +18,7 @@
         </a>
     </div>
 
-    <!-- Status Filter Tabs -->
+    <!-- Status Filter Tabss -->
     <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
         <div class="flex flex-wrap gap-2">
             <a href="{{ route('user.invoices.index') }}" 
