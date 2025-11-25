@@ -68,8 +68,36 @@ class UserSeeder extends Seeder
             ]
         );
 
+        // Create or find Test User (your test account)
+        $testUser = User::firstOrCreate(
+            ['email' => 'test@invoicepro.com'],
+            [
+                'name' => 'Test User',
+                'password' => Hash::make('test123'),
+                'role' => 'user',
+                'email_verified_at' => now(),
+            ]
+        );
+
+        // Assign user role if not already assigned
+        if (!$testUser->hasRole('user')) {
+            $testUser->assignRole('user');
+        }
+
+        // Create or update test user settings
+        Setting::updateOrCreate(
+            ['user_id' => $testUser->id],
+            [
+                'company_name' => 'Test Company',
+                'address' => 'Test Address, Test City, TC 12345',
+                'tax_rate' => 18.00,
+                'invoice_prefix' => 'TEST',
+            ]
+        );
+
         $this->command->info('✅ Users seeded successfully!');
         $this->command->info('Admin: admin@invoicepro.com / password');
         $this->command->info('User: user@invoicepro.com / password');
+        $this->command->info('Test: test@invoicepro.com / test123');
     }
 }
