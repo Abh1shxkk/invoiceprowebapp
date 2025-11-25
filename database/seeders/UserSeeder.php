@@ -36,7 +36,7 @@ class UserSeeder extends Seeder
             [
                 'company_name' => 'InvoicePro Admin',
                 'address' => '123 Admin Street, Admin City, AC 12345',
-                'tax_rate' => 18.00,
+                'default_tax_rate' => 18.00,
                 'invoice_prefix' => 'ADM',
             ]
         );
@@ -63,7 +63,7 @@ class UserSeeder extends Seeder
             [
                 'company_name' => 'John Doe Enterprises',
                 'address' => '456 Business Ave, Business City, BC 67890',
-                'tax_rate' => 15.00,
+                'default_tax_rate' => 15.00,
                 'invoice_prefix' => 'INV',
             ]
         );
@@ -90,7 +90,7 @@ class UserSeeder extends Seeder
             [
                 'company_name' => 'Test Company',
                 'address' => 'Test Address, Test City, TC 12345',
-                'tax_rate' => 18.00,
+                'default_tax_rate' => 18.00,
                 'invoice_prefix' => 'TEST',
             ]
         );

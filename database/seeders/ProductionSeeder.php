@@ -40,7 +40,7 @@ class ProductionSeeder extends Seeder
             [
                 'company_name' => 'Your Company Name', // Change this
                 'address' => 'Your Company Address', // Change this
-                'tax_rate' => 18.00,
+                'default_tax_rate' => 18.00,
                 'invoice_prefix' => 'INV',
             ]
         );
@@ -67,7 +67,7 @@ class ProductionSeeder extends Seeder
             [
                 'company_name' => 'User Company',
                 'address' => 'User Address',
-                'tax_rate' => 15.00,
+                'default_tax_rate' => 15.00,
                 'invoice_prefix' => 'USR',
             ]
         );
