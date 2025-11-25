@@ -15,10 +15,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Seed in order: Roles -> Users -> Categories -> Clients -> Invoices
+        // Seed in order: Roles -> Users -> Test User -> Categories -> Clients -> Invoices
         $this->call([
             RoleSeeder::class,
             UserSeeder::class,
+            TestUserSeeder::class,  // Complete demo user with all data
             CategorySeeder::class,
             ClientSeeder::class,
             InvoiceSeeder::class,
