@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let itemCount = 0;
 
     // Load existing items from the invoice
-    const existingItems = @json($invoice->items);
+    const existingItems = @json($invoice->items ?? []);
     
     // Add existing items
     if (existingItems && existingItems.length > 0) {
